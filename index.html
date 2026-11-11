@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; base-uri 'none'; form-action 'none'">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="player-overlay" class="player-overlay" role="dialog" aria-modal="true" aria-labelledby="player-dialog-title">
+        <div class="player-dialog">
+            <h2 id="player-dialog-title">Who is playing?</h2>
+            <div id="known-players-section" hidden>
+                <p class="player-label">Continue as:</p>
+                <div id="player-list" class="player-list"></div>
+                <p class="player-label">Or enter a new name:</p>
+            </div>
+            <div id="no-known-players-section">
+                <p class="player-label">Enter your name:</p>
+            </div>
+            <input type="text" id="player-name-input" class="player-name-input" maxlength="20" placeholder="Your name" autocomplete="off">
+            <p id="player-error" class="player-error" role="alert"></p>
+            <button id="start-game-button" type="button" class="player-start-btn">Start Game</button>
+        </div>
+    </div>
+
+    <main id="main-game" inert>
+        <h1>Sudoku</h1>
+        <div class="player-info">
+            <span>Playing as: <strong id="current-player-name"></strong></span>
+            <button id="switch-player" type="button">Switch Player</button>
+            <span>Time: <strong id="timer" class="timer">00:00</strong></span>
+            <span>Points: <strong id="points" class="points">0</strong></span>
+        </div>
+        <div id="board" class="board" role="grid" aria-label="Sudoku board"></div>
+        <p id="message" class="message" aria-live="polite"></p>
+        <div class="controls">
+            <button id="reset" type="button">Reset</button>
+            <button id="new-puzzle" type="button">New Puzzle</button>
+            <button id="hint" type="button">Hint</button>
+        </div>
+        <div class="setting">
+            <label for="difficulty">Difficulty:</label>
+            <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+        <div class="setting">
+            <label for="style">Style:</label>
+            <select id="style">
+                <option value="light" selected>Light</option>
+                <option value="dark">Dark</option>
+                <option value="xmas">X-Mas</option>
+            </select>
+        </div>
+    </main>
+
+    <script src="js/sudoku.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

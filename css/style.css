@@ -1,0 +1,349 @@
+/* ---- Styles (FR-011) ----
+   Each style is a set of custom properties. To add a style, add a block
+   :root[data-style="name"] that overrides these properties. */
+
+:root {
+    --page-bg: #f4f4f4;
+    --text: #222;
+    --board-border: #222;
+    --cell-border: #bbb;
+    --cell-bg: #fff;
+    --selected-bg: #e3eefc;
+    --entry-color: #1a5fb4;
+    --given-color: #222;
+    --given-bg: #eaeaea;
+    --hint-color: #2e7d32;
+    --hint-bg: #e3f4e4;
+    --conflict-color: #b00020;
+    --conflict-bg: #f8d0d0;
+    --success-color: #2e7d32;
+    --accent: #1a5fb4;
+}
+
+:root[data-style="dark"] {
+    color-scheme: dark;
+    --page-bg: #181a1d;
+    --text: #e6e6e6;
+    --board-border: #e6e6e6;
+    --cell-border: #50555c;
+    --cell-bg: #24272b;
+    --selected-bg: #2c4766;
+    --entry-color: #7cb8ff;
+    --given-color: #f2f2f2;
+    --given-bg: #3a3e44;
+    --hint-color: #86e08b;
+    --hint-bg: #1f3d24;
+    --conflict-color: #ff9a9a;
+    --conflict-bg: #5e2329;
+    --success-color: #86e08b;
+    --accent: #7cb8ff;
+}
+
+:root[data-style="xmas"] {
+    color-scheme: dark;
+    --page-bg: #0b3d20;
+    --text: #fff8e7;
+    --board-border: #a67c00;
+    --cell-border: #9bb8a3;
+    --cell-bg: #fffaf0;
+    --selected-bg: #cfe3f5;
+    --entry-color: #c8102e;
+    --given-color: #0b3d20;
+    --given-bg: #dfeee2;
+    --hint-color: #7a5c00;
+    --hint-bg: #fbeab0;
+    --conflict-color: #fff;
+    --conflict-bg: #c8102e;
+    --success-color: #ffd75e;
+    --accent: #ffd75e;
+}
+
+/* ---- X-Mas decorations ----
+   Made only with CSS and Unicode characters. They do not react to input
+   (pointer-events: none) and lie behind or outside the game content. */
+
+/* Small snowflakes in the page background */
+:root[data-style="xmas"] body {
+    background-image:
+        radial-gradient(circle, rgba(255, 255, 255, 0.55) 2px, transparent 3px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.3) 1.5px, transparent 2.5px);
+    background-size: 90px 90px, 50px 50px;
+    background-position: 0 0, 25px 35px;
+}
+
+/* String of lights along the top of the page */
+:root[data-style="xmas"] body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 18px;
+    background:
+        radial-gradient(circle at 50% 60%, #ff3b3b 5px, transparent 6px) 0 0 / 60px 18px,
+        radial-gradient(circle at 50% 60%, #ffd75e 5px, transparent 6px) 20px 0 / 60px 18px,
+        radial-gradient(circle at 50% 60%, #5ad16b 5px, transparent 6px) 40px 0 / 60px 18px,
+        linear-gradient(#222, #222) 0 3px / 100% 2px no-repeat;
+    pointer-events: none;
+}
+
+/* Large snowflakes behind the game content */
+:root[data-style="xmas"] main::before,
+:root[data-style="xmas"] main::after {
+    position: fixed;
+    z-index: -1;
+    font-size: 72px;
+    line-height: 1;
+    color: #fff;
+    opacity: 0.18;
+    pointer-events: none;
+}
+
+:root[data-style="xmas"] main::before {
+    content: '\2744';
+    top: 22%;
+    left: 6%;
+}
+
+:root[data-style="xmas"] main::after {
+    content: '\2746';
+    bottom: 12%;
+    right: 6%;
+}
+
+/* Christmas trees next to the title */
+:root[data-style="xmas"] h1::before {
+    content: '\1F384\00A0';
+}
+
+:root[data-style="xmas"] h1::after {
+    content: '\00A0\1F384';
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--page-bg);
+    color: var(--text);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+}
+
+h1 {
+    margin: 0 0 16px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    width: min(90vw, 450px);
+    aspect-ratio: 1;
+    border: 3px solid var(--board-border);
+    background: var(--cell-bg);
+}
+
+.cell {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--cell-border);
+    border-radius: 0;
+    padding: 0;
+    text-align: center;
+    font-size: clamp(16px, 5vw, 26px);
+    color: var(--entry-color);
+    background: var(--cell-bg);
+    outline: none;
+}
+
+.cell:focus {
+    background: var(--selected-bg);
+}
+
+/* Thick borders separate the nine 3x3 blocks */
+.cell.block-right {
+    border-right: 3px solid var(--board-border);
+}
+
+.cell.block-bottom {
+    border-bottom: 3px solid var(--board-border);
+}
+
+.cell.given {
+    color: var(--given-color);
+    font-weight: bold;
+    background: var(--given-bg);
+    cursor: default;
+}
+
+.cell.hint {
+    color: var(--hint-color);
+    font-weight: bold;
+    background: var(--hint-bg);
+    cursor: default;
+}
+
+.cell.conflict {
+    background: var(--conflict-bg);
+    color: var(--conflict-color);
+}
+
+.message {
+    min-height: 1.5em;
+    margin: 16px 0 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--success-color);
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+}
+
+button {
+    padding: 8px 24px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.setting {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.setting select {
+    padding: 6px 8px;
+    font-size: 1em;
+}
+
+/* ---- Player selection overlay ---- */
+
+.player-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.player-overlay[hidden] {
+    display: none;
+}
+
+.player-dialog {
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px 40px;
+    max-width: 380px;
+    width: 90%;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.player-dialog h2 {
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+.player-label {
+    margin: 8px 0 4px;
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.player-btn {
+    padding: 8px 16px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: #f0f0f0;
+    text-align: left;
+}
+
+.player-btn:hover {
+    background: #e3eefc;
+    border-color: #1a5fb4;
+}
+
+.player-btn-last {
+    background: #e3eefc;
+    border-color: #1a5fb4;
+    font-weight: bold;
+}
+
+.player-name-input {
+    padding: 8px 12px;
+    font-size: 1em;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    outline: none;
+    margin-top: 4px;
+}
+
+.player-name-input:focus {
+    border-color: #1a5fb4;
+    box-shadow: 0 0 0 2px rgba(26, 95, 180, 0.2);
+}
+
+.player-error {
+    min-height: 1.2em;
+    color: #b00020;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.player-start-btn {
+    padding: 10px 24px;
+    font-size: 1em;
+    cursor: pointer;
+    background: #1a5fb4;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+
+.player-start-btn:hover {
+    background: #1450a0;
+}
+
+/* ---- Player info bar ---- */
+
+.player-info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 12px;
+    font-size: 1em;
+}
+
+.timer,
+.points {
+    font-variant-numeric: tabular-nums;
+}
+
+#current-player-name {
+    color: var(--accent);
+}
