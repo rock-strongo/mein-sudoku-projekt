@@ -2,9 +2,11 @@
 
 A simple Sudoku game that runs directly in the browser. Built with plain HTML, CSS and JavaScript – no frameworks, no dependencies, no server.
 
+**Play online:** https://rock-strongo.github.io/mein-sudoku-projekt/
+
 ## Getting Started
 
-Open `index.html` in a web browser. No installation or internet connection required.
+Play it online via the link above, or open `index.html` in a web browser. No installation or internet connection required.
 
 ## Features
 
